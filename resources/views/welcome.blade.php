@@ -1,100 +1,201 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+@extends('layouts.main')
+@section('title', 'Login')
+@section('header')
+<div class="header-body text-center mb-7">
+    <div class="row justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+            <h1 class="text-white">Welcome!</h1>
+            <p class="text-lead text-white">Kebahagiaan bukan hak kita semata, tetapi juga orang lain</p>
         </div>
-    </body>
-</html>
+    </div>
+</div>
+@endsection
+@section('content')
+<div class="row justify-content-center">
+  @for ($i = 0; $i < 3; $i++)
+  <div class="col-xl-4 order-xl-1">
+    <div class="card card-profile">
+      <img src="img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+
+      <div class="card-header text-center border-0 pt-4 pt-md-2 pb-0 pb-md-4">
+        <div class="progress-wrapper mb-4">
+          <div class="progress-info">
+            <div class="progress-label">
+              <span>28 hari lagi</span>
+            </div>
+            <div class="progress-percentage">
+              <span>Rp. 26.000.000</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <a href="#" class="btn btn-sm btn-default">Lelang Barang</a>
+          <a href="#" class="btn btn-sm btn-info float-right">Berdonasi</a>
+        </div>
+      </div>
+      <div class="card-body pt-0">
+        {{-- <div class="row">
+          <div class="col">
+            <div class="card-profile-stats d-flex justify-content-center">
+              <div>
+                <span class="heading">22</span>
+                <span class="description">Friends</span>
+              </div>
+              <div>
+                <span class="heading">10</span>
+                <span class="description">Photos</span>
+              </div>
+              <div>
+                <span class="heading">89</span>
+                <span class="description">Comments</span>
+              </div>
+            </div>
+          </div>
+        </div> --}}
+        <div class="text-center">
+          {{-- <h5 class="h3">
+            Jessica Jones<span class="font-weight-light">, 27</span>
+          </h5>
+          <div class="h5 font-weight-300">
+            <i class="ni location_pin mr-2"></i>Bucharest, Romania
+          </div> --}}
+          <div>
+            <i class="ni education_hat mr-2"></i>Pembangunan Pondok Pesantren Darul Majid di Kuningan Jawa Barat
+          </div>
+                <div class="h5 mt-4">
+                  <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - Alan Suryawijaya
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endfor
+  @for ($i = 0; $i < 2; $i++)
+  <div class="col-xl-6 order-xl-1">
+    <div class="card card-profile">
+      <img src="img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+
+      <div class="card-header text-center border-0 pt-4 pt-md-2 pb-0 pb-md-4">
+        <div class="progress-wrapper mb-4">
+          <div class="progress-info">
+            <div class="progress-label">
+              <span>28 hari lagi</span>
+            </div>
+            <div class="progress-percentage">
+              <span>Rp. 26.000.000</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <a href="#" class="btn btn-sm btn-default">Lelang Barang</a>
+          <a href="#" class="btn btn-sm btn-info float-right">Berdonasi</a>
+        </div>
+      </div>
+      <div class="card-body pt-0">
+        {{-- <div class="row">
+          <div class="col">
+            <div class="card-profile-stats d-flex justify-content-center">
+              <div>
+                <span class="heading">22</span>
+                <span class="description">Friends</span>
+              </div>
+              <div>
+                <span class="heading">10</span>
+                <span class="description">Photos</span>
+              </div>
+              <div>
+                <span class="heading">89</span>
+                <span class="description">Comments</span>
+              </div>
+            </div>
+          </div>
+        </div> --}}
+        <div class="text-center">
+          {{-- <h5 class="h3">
+            Jessica Jones<span class="font-weight-light">, 27</span>
+          </h5>
+          <div class="h5 font-weight-300">
+            <i class="ni location_pin mr-2"></i>Bucharest, Romania
+          </div> --}}
+          <div>
+            <i class="ni education_hat mr-2"></i>Pembangunan Pondok Pesantren Darul Majid di Kuningan Jawa Barat
+          </div>
+                <div class="h5 mt-4">
+                  <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - Alan Suryawijaya
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endfor
+
+  @for ($i = 0; $i < 3; $i++)
+  <div class="col-xl-4 order-xl-3">
+    <div class="card card-profile">
+      <img src="img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+
+      <div class="card-header text-center border-0 pt-4 pt-md-2 pb-0 pb-md-4">
+        <div class="progress-wrapper mb-4">
+          <div class="progress-info">
+            <div class="progress-label">
+              <span>28 hari lagi</span>
+            </div>
+            <div class="progress-percentage">
+              <span>Rp. 26.000.000</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <a href="#" class="btn btn-sm btn-default">Lelang Barang</a>
+          <a href="#" class="btn btn-sm btn-info float-right">Berdonasi</a>
+        </div>
+      </div>
+      <div class="card-body pt-0">
+        {{-- <div class="row">
+          <div class="col">
+            <div class="card-profile-stats d-flex justify-content-center">
+              <div>
+                <span class="heading">22</span>
+                <span class="description">Friends</span>
+              </div>
+              <div>
+                <span class="heading">10</span>
+                <span class="description">Photos</span>
+              </div>
+              <div>
+                <span class="heading">89</span>
+                <span class="description">Comments</span>
+              </div>
+            </div>
+          </div>
+        </div> --}}
+        <div class="text-center">
+          {{-- <h5 class="h3">
+            Jessica Jones<span class="font-weight-light">, 27</span>
+          </h5>
+          <div class="h5 font-weight-300">
+            <i class="ni location_pin mr-2"></i>Bucharest, Romania
+          </div> --}}
+          <div>
+            <i class="ni education_hat mr-2"></i>Pembangunan Pondok Pesantren Darul Majid di Kuningan Jawa Barat
+          </div>
+                <div class="h5 mt-4">
+                  <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - Alan Suryawijaya
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endfor
+
+</div>
+@endsection
