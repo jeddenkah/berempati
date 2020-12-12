@@ -43,6 +43,7 @@
 
             <hr class="d-lg-none" />
             <ul class="navbar-nav align-items-lg-center ">
+                @guest
                 <li class="nav-item d-none d-lg-block ">
                     <a href="{{ route('login') }}" class="btn btn-neutral btn-icon ml-2">
                         {{-- <span class="btn-inner--icon">
@@ -51,6 +52,19 @@
                         <span class="nav-link-inner--text">Login</span>
                     </a>
                 </li>
+                @else
+                <li class="nav-item d-none d-lg-block ">
+                    <a class="btn btn-neutral btn-icon ml-2" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();">
+                     {{ __('Logout') }}
+                 </a>
+
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                     @csrf
+                 </form>
+                </li>
+                @endguest
             </ul>
         </div>
     </div>

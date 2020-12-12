@@ -1,10 +1,11 @@
   @extends('layouts.app')
   @section('main')
       <!-- Sidenav -->
+      @include('layouts.dashboard.sidebar')
   <!-- Main content -->
   <div class="main-content" id="panel">
     <!-- Topnav -->
-    @include('layouts.navbar')
+    @include('layouts.dashboard.navbar')
     <!-- Header -->
     <!-- Header -->
     <div class="header bg-primary pb-6">
@@ -16,7 +17,7 @@
     <div class="container-fluid mt--6">
         @yield('content')
       <!-- Footer -->
-      @include('layouts.footer')
+      @include('layouts.dashboard.footer')
     </div>
   </div>
   @endsection

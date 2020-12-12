@@ -36,7 +36,7 @@
           <a href="#" class="btn btn-sm btn-info float-right">Berdonasi</a>
         </div>
       </div>
-      <div class="card-body pt-0">
+      <div class="card-body pt-4">
         {{-- <div class="row">
           <div class="col">
             <div class="card-profile-stats d-flex justify-content-center">
@@ -97,7 +97,7 @@
           <a href="#" class="btn btn-sm btn-info float-right">Berdonasi</a>
         </div>
       </div>
-      <div class="card-body pt-0">
+      <div class="card-body pt-4">
         {{-- <div class="row">
           <div class="col">
             <div class="card-profile-stats d-flex justify-content-center">
@@ -159,7 +159,7 @@
           <a href="#" class="btn btn-sm btn-info float-right">Berdonasi</a>
         </div>
       </div>
-      <div class="card-body pt-0">
+      <div class="card-body pt-4">
         {{-- <div class="row">
           <div class="col">
             <div class="card-profile-stats d-flex justify-content-center">
