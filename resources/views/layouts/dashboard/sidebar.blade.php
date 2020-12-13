@@ -1,10 +1,17 @@
 <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
     <div class="scrollbar-inner">
+      <div class=" mt-3 d-xl-none float-right align-items-center">
+        <!-- Sidenav toggler -->
+        <div class="pr-3 sidenav-toggler sidenav-toggler-light" data-action="sidenav-pin" data-target="#sidenav-main">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
       <!-- Brand -->
-      <div class="sidenav-header  align-items-center">
-        <a class="navbar-brand" href="javascript:void(0)">
+      <div class="sidenav-header align-items-center">
+        <a class="navbar-brand" href="#">
           <img src="/img/brand/blue.png" class="navbar-brand-img" alt="...">
         </a>
+
       </div>
       <div class="navbar-inner">
         <!-- Collapse -->
@@ -12,18 +19,18 @@
           <!-- Nav items -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="examples/dashboard.html">
+              <a class="nav-link active" href="{{route('admin.dashboard')}}">
                 <i class="ni ni-tv-2 text-primary"></i>
                 <span class="nav-link-text">Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="examples/icons.html">
+              <a class="nav-link" href="{{route('crowdfund.index')}}">
                 <i class="ni ni-planet text-orange"></i>
-                <span class="nav-link-text">Icons</span>
+                <span class="nav-link-text">Crowdfund</span>
               </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link" href="examples/map.html">
                 <i class="ni ni-pin-3 text-primary"></i>
                 <span class="nav-link-text">Google</span>
@@ -58,9 +65,9 @@
                 <i class="ni ni-send text-dark"></i>
                 <span class="nav-link-text">Upgrade</span>
               </a>
-            </li>
+            </li> --}}
           </ul>
-          <!-- Divider -->
+          {{-- <!-- Divider -->
           <hr class="my-3">
           <!-- Heading -->
           <h6 class="navbar-heading p-0 text-muted">
@@ -98,7 +105,7 @@
                 <span class="nav-link-text">Upgrade to PRO</span>
               </a>
             </li>
-          </ul>
+          </ul> --}}
         </div>
       </div>
     </div>

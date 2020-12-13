@@ -15,8 +15,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::middleware('auth')->group(function(){
+    Route::middleware('role:admin')->prefix('admin')->group(function(){
+        Route::get('/', 'AdminController@dashboard')->name('admin.dashboard');
+        
+
+        Route::resource('crowdfund', 'CrowdfundController');
+        Route::resource('crowdfund.donation', 'DonationController');
+    });
+
+});

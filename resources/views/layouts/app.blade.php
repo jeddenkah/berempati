@@ -1,18 +1,3 @@
-<!--
-=========================================================
-* Argon Dashboard - v1.2.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
-
-
-* Copyright  Creative Tim (http://www.creative-tim.com)
-* Coded by www.creative-tim.com
-
-
-
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html>
 
@@ -30,6 +15,8 @@
   <link rel="stylesheet" href="/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
   <!-- Page plugins -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
   <!-- Argon CSS -->
   <link rel="stylesheet" href="/css/argon.css?v=1.2.0" type="text/css">
   @stack('css')
@@ -44,8 +31,11 @@
   <script src="/vendor/js-cookie/js.cookie.js"></script>
   <script src="/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
   <script src="/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  
+  {!! Toastr::message() !!}
   <!-- Optional JS -->
-  @stack('script')
+  @stack('js')
   <script src="/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="/vendor/chart.js/dist/Chart.extension.js"></script>
   <!-- Argon JS -->
