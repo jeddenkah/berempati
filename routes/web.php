@@ -30,7 +30,12 @@ Route::middleware('auth')->group(function(){
         Route::resource('crowdfund.donation', 'DonationController');
         Route::resource('crowdfund.auction', 'AuctionController')->shallow();
         Route::resource('auction.bid', 'BidController');
+        Route::resource('crowdfund.report', 'ReportController');
 
+        Route::get('manage-user', 'UserController@index')->name('user.index');
+        Route::get('manage-user/{id}/edit', 'UserController@edit')->name('user.edit');
+        Route::patch('manage-user/{id}/update', 'UserController@update')->name('user.update');
+        Route::delete('manage-user/{id}/destroy', 'UserController@destroy')->name('user.destroy');
     });
 
 });

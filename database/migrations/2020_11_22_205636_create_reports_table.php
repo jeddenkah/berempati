@@ -17,9 +17,9 @@ class CreateReportsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->foreign('user_id')->references('id')->on('users');
             $table->foreignId('crowdfund_id')->foreign('crowdfund_id')->references('id')->on('crowdfunds');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->text('desc');
-            $table->date('date');
+            $table->datetime('datetime');
             $table->timestamps();
         });
     }

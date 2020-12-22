@@ -35,16 +35,13 @@ class Report extends Model
 		'crowdfund_id' => 'int'
 	];
 
-	protected $dates = [
-		'date'
-	];
 
 	protected $fillable = [
 		'user_id',
 		'crowdfund_id',
 		'image',
 		'desc',
-		'date'
+		'datetime'
 	];
 
 	public function crowdfund()

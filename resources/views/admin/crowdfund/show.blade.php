@@ -118,6 +118,75 @@
             <!-- Card header -->
             <div class="card-header border-0">
                 <a class="btn btn-primary btn-sm shadow float-right"
+                    href="{{ route('crowdfund.report.create', $crowdfund->id) }}"><i class="fas fa-plus"></i></a>
+                <h3 class="mb-0">Report</h3>
+            </div>
+            <!-- Light table -->
+            <div class="table-responsive">
+                <table class="table align-items-center dataTable table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="name">Reporter</th>
+                            <th scope="col" class="sort" data-sort="status">Image</th>
+                            <th scope="col" class="sort" data-sort="status">Description</th>
+                            <th scope="col" class="sort" data-sort="completion">Date Time</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        @foreach ($crowdfund->reports as $report)
+                        <tr>
+                            <th scope="row">
+                                <div class="media align-items-center">
+                                    <div class="media-body">
+                                        <span class="name mb-0 text-sm">{{ $report->user->name }}</span>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <td class="text-center">
+                                <img src="{{ asset('storage/images/report/'.$report->image) }}" style="max-height: 100px" class="img-responsive" alt="">
+                            </td>
+                            <td>
+                                {{ $report->desc }}
+                            </td>
+                            <td>
+                                {{ $report->datetime }}
+                            </td>
+                         
+                            <td class="text-right">
+                                <div class="dropdown">
+                                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                        <form
+                                            action="{{ route('crowdfund.report.destroy',[$crowdfund->id, $report->id]) }}"
+                                            method="POST" onsubmit="return confirm('Are you sure delete this item?')">
+                                            @csrf
+                                            @method('delete')
+                                            <a class="dropdown-item"
+                                                href="{{ route('crowdfund.report.edit', [$crowdfund->id, $report->id]) }}">Edit</a>
+                                            <button type="submit" class="dropdown-item">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <a class="btn btn-primary btn-sm shadow float-right"
                     href="{{ route('crowdfund.donation.create', $crowdfund->id) }}"><i class="fas fa-plus"></i></a>
                 <h3 class="mb-0">Donations List</h3>
             </div>

@@ -19,15 +19,21 @@
           <!-- Nav items -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="{{route('admin.dashboard')}}">
+              <a class="nav-link {{ Request::is('admin') ? 'active':'' }} " href="{{route('admin.dashboard')}}"> 
                 <i class="ni ni-tv-2 text-primary"></i>
                 <span class="nav-link-text">Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{route('crowdfund.index')}}">
+              <a class="nav-link {{ Request::is('admin/crowdfund*') ? 'active':'' }} " href="{{route('crowdfund.index')}}">
                 <i class="ni ni-planet text-orange"></i>
                 <span class="nav-link-text">Crowdfund</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('admin/manage-user*') ? 'active':'' }} " href="{{route('user.index')}}">
+                <i class="ni ni-single-02 text-primary"></i>
+                <span class="nav-link-text">Manage Users</span>
               </a>
             </li>
             {{-- <li class="nav-item">
