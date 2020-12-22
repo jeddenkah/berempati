@@ -2,7 +2,14 @@
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.dataTable').DataTable();
+        $('.dataTable').DataTable({
+            'language': {
+                'paginate' : {
+                    'previous': '<',
+                    'next' : '>'
+                }
+            }
+        });
     });
 
 </script>

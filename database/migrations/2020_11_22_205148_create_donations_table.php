@@ -18,7 +18,7 @@ class CreateDonationsTable extends Migration
             $table->foreignId('user_id')->foreign('user_id')->references('id')->on('users');
             $table->foreignId('crowdfund_id')->foreign('crowdfund_id')->references('id')->on('crowdfunds');
             $table->unsignedBigInteger('nominal');
-            $table->string('message');
+            $table->string('message')->nullable();
             $table->boolean('is_anonym');
             $table->timestamps();
         });

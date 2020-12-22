@@ -46,6 +46,7 @@ class Auction extends Model
 	protected $fillable = [
 		'user_id',
 		'crowdfund_id',
+		'name',
 		'image',
 		'desc',
 		'start_nominal',

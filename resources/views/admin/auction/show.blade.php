@@ -12,7 +12,8 @@
                     <li class="breadcrumb-item"><a href="{{ route('home')}}"><i class="fas fa-home"></i></a></li>
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}">Admin</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('crowdfund.index')}}">Crowdfund</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{$crowdfund->name}}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('crowdfund.show', $auction->crowdfund->id)}}">{{ $auction->crowdfund->name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$auction->name}}</li>
                 </ol>
             </nav>
         </div>
@@ -118,8 +119,8 @@
             <!-- Card header -->
             <div class="card-header border-0">
                 <a class="btn btn-primary btn-sm shadow float-right"
-                    href="{{ route('crowdfund.donation.create', $crowdfund->id) }}"><i class="fas fa-plus"></i></a>
-                <h3 class="mb-0">Donations List</h3>
+                    href="{{ route('auction.bid.create', $auction->id) }}"><i class="fas fa-plus"></i></a>
+                <h3 class="mb-0">Bids List</h3>
             </div>
             <!-- Light table -->
             <div class="table-responsive">
@@ -128,31 +129,26 @@
                         <tr>
                             <th scope="col" class="sort" data-sort="name">Name</th>
                             <th scope="col" class="sort" data-sort="status">Nominal</th>
-                            <th scope="col" class="sort" data-sort="status">Message</th>
-                            <th scope="col" class="sort" data-sort="completion">Is Anonym</th>
+                            <th scope="col" class="sort" data-sort="status">Description</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody class="list">
-                        @foreach ($crowdfund->donations as $donation)
+                        @foreach ($auction->bids as $bid)
                         <tr>
                             <th scope="row">
                                 <div class="media align-items-center">
                                     <div class="media-body">
-                                        <span class="name mb-0 text-sm">{{ $donation->user->name }}</span>
+                                        <span class="name mb-0 text-sm">{{ $bid->user->name }}</span>
                                     </div>
                                 </div>
                             </th>
 
                             <td class="budget">
-                                Rp. {{ number_format($donation->nominal,0,",",".") }}
+                                Rp. {{ number_format($bid->nominal,0,",",".") }}
                             </td>
                             <td>
-                                {{ $donation->message }}
-                            </td>
-                            <td>
-                                <span
-                                    class="badge badge-pill {{$donation->is_anonym ? 'badge-primary':'badge-secondary'}}">{{$donation->is_anonym ? 'Yes':'No'}}</span>
+                                {{ $bid->desc }}
                             </td>
                             <td class="text-right">
                                 <div class="dropdown">
@@ -162,12 +158,12 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <form
-                                            action="{{ route('crowdfund.donation.destroy',[$crowdfund->id, $donation->id]) }}"
+                                            action="{{ route('auction.bid.destroy',[$auction->id, $bid->id]) }}"
                                             method="POST" onsubmit="return confirm('Are you sure delete this item?')">
                                             @csrf
                                             @method('delete')
                                             <a class="dropdown-item"
-                                                href="{{ route('crowdfund.donation.edit', [$crowdfund->id, $donation->id]) }}">Edit</a>
+                                                href="{{ route('auction.bid.edit', [$auction->id, $bid->id]) }}">Edit</a>
                                             <button type="submit" class="dropdown-item">Delete</button>
                                         </form>
                                     </div>
@@ -182,77 +178,7 @@
 
         </div>
     </div>
-    <div class="col-12">
-        <div class="card">
-            <!-- Card header -->
-            <div class="card-header border-0">
-                <a class="btn btn-primary btn-sm shadow float-right"
-                    href="{{ route('crowdfund.auction.create', $crowdfund->id) }}"><i class="fas fa-plus"></i></a>
-                <h3 class="mb-0">Auctions List</h3>
-            </div>
-            <!-- Light table -->
-            <div class="table-responsive">
-                <table class="table align-items-center dataTable table-flush">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col" class="sort">Name</th>
-                            <th scope="col" class="sort">Image</th>
-                            <th scope="col" class="sort">Description</th>
-                            <th scope="col" class="sort">Start Nominal</th>
-                            <th scope="col" class="sort">Target Date</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach ($crowdfund->auctions as $auction)
-                        <tr>
-                            <th scope="row">
-                                <div class="media align-items-center">
-                                    <div class="media-body">
-                                        <a href="{{ route('auction.show', $auction->id) }}"><span class="name mb-0 text-sm">{{ $auction->name }}</span></a>
-                                    </div>
-                                </div>
-                            </th>
 
-                            <td class="text-center">
-                                <img src="{{ asset('storage/images/auction/'.$auction->image) }}" style="max-height: 100px" class="img-responsive" alt="">
-                            </td>
-                            <td>
-                                {{ $auction->desc }}
-                            </td>
-                            <td class="budget">
-                                Rp. {{ number_format($auction->start_nominal,0,",",".")  }}
-                            </td>
-                            <td>
-                                {{ $auction->target_date }}
-                            </td>
-                            <td class="text-right">
-                                <div class="dropdown">
-                                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <form action="{{ route('auction.destroy',[$auction->id]) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure delete this item?')">
-                                            @csrf
-                                            @method('delete')
-                                            <a class="dropdown-item"
-                                                href="{{ route('auction.edit', [$auction->id]) }}">Edit</a>
-                                            <button type="submit" class="dropdown-item">Delete</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
 </div>
 @endsection
 @push('js')

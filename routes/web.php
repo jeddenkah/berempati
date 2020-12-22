@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function(){
 
         Route::resource('crowdfund', 'CrowdfundController');
         Route::resource('crowdfund.donation', 'DonationController');
+        Route::resource('crowdfund.auction', 'AuctionController')->shallow();
+        Route::resource('auction.bid', 'BidController');
+
     });
 
 });

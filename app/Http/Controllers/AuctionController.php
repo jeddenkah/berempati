@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Auction;
 use App\Models\Crowdfund;
-use Brian2694\Toastr\Facades\Toastr as Toastr;
+use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class CrowdfundController extends Controller
+class AuctionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +19,7 @@ class CrowdfundController extends Controller
      */
     public function index()
     {
-        $crowdfunds = Crowdfund::all();
-        return view('admin.crowdfund.index', compact('crowdfunds'));
+        //
     }
 
     /**
@@ -27,9 +27,10 @@ class CrowdfundController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($crowdfund_id)
     {
-        return view('admin.crowdfund.create');
+        $crowdfund = Crowdfund::find($crowdfund_id);
+        return view('admin.auction.create', compact('crowdfund'));
     }
 
     /**
@@ -38,35 +39,34 @@ class CrowdfundController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($crowdfund_id, Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
             'image' => 'required | file | image',
-            'target_nominal' => 'required|numeric',
+            'start_nominal' => 'required|numeric',
             'target_date' => 'required|date',
         ]);
-
-
         $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
 
         $image = $request->file('image')
-            ->storeAs('public/images/crowdfund/', $fileName);
+            ->storeAs('public/images/auction/', $fileName);
 
-        Crowdfund::insert([
+        Auction::insert([
             'user_id' => Auth::user()->id,
+            'crowdfund_id' => $crowdfund_id,
             'name' => $request->name,
             'desc' => $request->description,
             'image' => $fileName,
-            'target_nominal' => $request->target_nominal,
+            'start_nominal' => $request->start_nominal,
             'target_date' => $request->target_date,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
-        Toastr::success('Crowdfund added successfully', 'Success!');
-        return redirect()->route('crowdfund.index');
+        Toastr::success('Auction added successfully', 'Success!');
+        return redirect()->route('crowdfund.show', $crowdfund_id);
     }
 
     /**
@@ -77,8 +77,9 @@ class CrowdfundController extends Controller
      */
     public function show($id)
     {
-        $crowdfund = Crowdfund::find($id);
-        return view('admin.crowdfund.show', compact('crowdfund'));
+        $auction = Auction::find($id);
+
+        return view('admin.auction.show', compact('auction'));
     }
 
     /**
@@ -89,8 +90,9 @@ class CrowdfundController extends Controller
      */
     public function edit($id)
     {
-        $crowdfund = Crowdfund::find($id);
-        return view('admin.crowdfund.edit', compact('crowdfund'));
+        $auction = Auction::find($id);
+
+        return view('admin.auction.edit', compact('auction'));
     }
 
     /**
@@ -105,37 +107,38 @@ class CrowdfundController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'nullable | file | image',
-            'target_nominal' => 'required|numeric',
+            'image' => 'file | image',
+            'start_nominal' => 'required|numeric',
             'target_date' => 'required|date',
         ]);
 
         if ($request->hasFile('image')) {
-            $existingImage = Crowdfund::find($id)->image;
-            Storage::delete('public/images/crowdfund/' . $existingImage);
+            $existingImage = Auction::find($id)->image;
+            Storage::delete('public/images/auction/' . $existingImage);
 
 
             $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
             $image = $request->file('image')
-                ->storeAs('public/images/crowdfund/', $fileName);
+                ->storeAs('public/images/auction/', $fileName);
 
 
-            $image = Crowdfund::find($id)->update([
+            $image = Auction::find($id)->update([
                 'image' => $fileName,
             ]);
         }
 
-
-        Crowdfund::find($id)->update([
+        $auction = Auction::find($id);
+        $auction->update([
             'name' => $request->name,
             'desc' => $request->description,
-            'target_nominal' => $request->target_nominal,
+            'start_nominal' => $request->start_nominal,
             'target_date' => $request->target_date,
             'updated_at' => Carbon::now()
         ]);
 
-        Toastr::success('Crowdfund edited successfully', 'Success!');
-        return redirect()->route('crowdfund.index');
+        Toastr::success('Auction edited successfully', 'Success!');
+        return redirect()->route('crowdfund.show', $auction->crowdfund->id);
+
     }
 
     /**
@@ -146,13 +149,6 @@ class CrowdfundController extends Controller
      */
     public function destroy($id)
     {
-        $existingImage = Crowdfund::find($id)->image;
-
-        Storage::delete('public/images/crowdfund/' . $existingImage);
-
-        Crowdfund::where('id', $id)->delete();
-
-        Toastr::success('Crowdfund deleted successfully', 'Success!');
-        return redirect()->route('crowdfund.index');
+        //
     }
 }
