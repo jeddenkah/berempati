@@ -67,4 +67,15 @@ class Auction extends Model
 	{
 		return $this->hasMany(Bid::class);
 	}
+
+	public function daysLeft()
+	{
+		$target_date = $this->target_date;
+		$daysLeft = Carbon::parse(Carbon::now())->diffInDays($target_date, false);
+		return $daysLeft >= 0 ? $daysLeft: 0 ;
+	}
+
+	public function topBid(){
+		return $this->bids()->max('nominal') ?? $this->start_nominal;
+	}
 }

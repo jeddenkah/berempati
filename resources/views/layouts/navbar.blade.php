@@ -1,6 +1,6 @@
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="dashboard.html">
+        <a class="navbar-brand" href="{{route('home')}}">
             <h2 class="text-light">Berempati</h2>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
@@ -11,7 +11,7 @@
             <div class="navbar-collapse-header">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="dashboard.html">
+                        <a href="{{route('home')}}">
                             <img src="/img/brand/blue.png">
                         </a>
                     </div>

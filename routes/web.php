@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
@@ -38,4 +36,10 @@ Route::middleware('auth')->group(function(){
         Route::delete('manage-user/{id}/destroy', 'UserController@destroy')->name('user.destroy');
     });
 
+    Route::get('crowdfund/{id}', 'CrowdfundController@showUser')->name('crowdfund.showUser');
+    Route::post('crowdfund/{id}/donation', 'DonationController@store')->name('donation.storeUser');
+    Route::get('crowdfund/{id}/auction/create', 'AuctionController@createUser')->name('auction.createUser');
+    Route::post('crowdfund/{id}/auction/create/store', 'AuctionController@store')->name('auction.storeUser');
+    Route::get('auction/{id}', 'AuctionController@showUser')->name('auction.showUser');
+    Route::post('auction/{id}/bid', 'BidController@store')->name('bid.storeUser');
 });

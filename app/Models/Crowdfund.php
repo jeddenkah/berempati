@@ -71,4 +71,27 @@ class Crowdfund extends Model
 	{
 		return $this->hasMany(Report::class);
 	}
+
+	public function totalDonation()
+	{
+		return $this->donations()->sum('nominal');
+	}
+
+	public function daysLeft()
+	{
+		$target_date = $this->target_date;
+		$daysLeft = Carbon::parse(Carbon::now())->diffInDays($target_date, false);
+		return $daysLeft >= 0 ? $daysLeft: 0 ;
+	}
+
+	public function totalDonationPercentage(){
+		$total_donation = self::totalDonation();
+		$target_nominal = $this->target_nominal;
+		$percentage = $total_donation/$target_nominal*100;
+		if($percentage>100){
+			return 100;
+		}else{
+			return round($percentage,2);
+		}
+	}
 }

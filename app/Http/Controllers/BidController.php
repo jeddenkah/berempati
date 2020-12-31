@@ -55,7 +55,11 @@ class BidController extends Controller
         ]);
 
         Toastr::success('Bid added successfully', 'Success!');
-        return redirect()->route('auction.show', $auction_id);
+        if(Auth::user()->role->name == 'admin'){
+            return redirect()->route('auction.show', $auction_id);
+        }else{
+            return redirect()->route('auction.showUser', $auction_id);
+        }
         
     }
 

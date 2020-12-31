@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PDO;
 
 class CrowdfundController extends Controller
 {
@@ -79,6 +80,11 @@ class CrowdfundController extends Controller
     {
         $crowdfund = Crowdfund::find($id);
         return view('admin.crowdfund.show', compact('crowdfund'));
+    }
+
+    public function showUser($id){
+        $crowdfund = Crowdfund::find($id);
+        return view('crowdfund.show', compact('crowdfund'));
     }
 
     /**

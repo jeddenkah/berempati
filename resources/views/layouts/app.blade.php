@@ -22,7 +22,7 @@
   @stack('css')
 </head>
 
-<body class="bg-default">
+<body class="bg-white">
     @yield('main')
   <!-- Argon Scripts -->
   <!-- Core -->

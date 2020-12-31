@@ -33,6 +33,12 @@ class AuctionController extends Controller
         return view('admin.auction.create', compact('crowdfund'));
     }
 
+    public function createUser($crowdfund_id)
+    {
+        $crowdfund = Crowdfund::find($crowdfund_id);
+        return view('auction.create', compact('crowdfund'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -66,7 +72,11 @@ class AuctionController extends Controller
         ]);
 
         Toastr::success('Auction added successfully', 'Success!');
-        return redirect()->route('crowdfund.show', $crowdfund_id);
+        if(Auth::user()->role->name == 'admin'){
+            return redirect()->route('crowdfund.show', $crowdfund_id);
+        }else{
+            return redirect()->route('crowdfund.showUser', $crowdfund_id);
+        }
     }
 
     /**
@@ -80,6 +90,12 @@ class AuctionController extends Controller
         $auction = Auction::find($id);
 
         return view('admin.auction.show', compact('auction'));
+    }
+
+    public function showUser($id){
+        $auction = Auction::find($id);
+
+        return view('auction.show', compact('auction'));
     }
 
     /**
