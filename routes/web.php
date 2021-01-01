@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,13 @@ Route::middleware('auth')->group(function(){
         Route::get('manage-user/{id}/edit', 'UserController@edit')->name('user.edit');
         Route::patch('manage-user/{id}/update', 'UserController@update')->name('user.update');
         Route::delete('manage-user/{id}/destroy', 'UserController@destroy')->name('user.destroy');
+
+        Route::get('artisan/storagelink', function(){
+            Artisan::call('storage:link');
+        });
+        Route::get('artisan/migrate', function(){
+            Artisan::call('migrate');
+        });
     });
 
     Route::get('crowdfund/create', 'CrowdfundController@createUser')->name('crowdfund.createUser');
