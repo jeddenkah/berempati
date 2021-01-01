@@ -7,6 +7,7 @@ use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,6 +16,9 @@ class UserController extends Controller
         return view('admin.user.index', compact('users'));
     }
 
+    public function profile(){
+        return view('user.profile');
+    }
     public function edit($id){
         $user = User::find($id);
         $roles = Role::all();
@@ -45,6 +49,26 @@ class UserController extends Controller
 
         Toastr::success('User edited successfully', 'Success!');
         return redirect()->route('user.index');
+    }
+
+    public function updateUser(Request $request){
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'no_hp' => 'required|numeric',
+            'address' => 'nullable|string',
+        ]);
+
+        User::find(Auth::user()->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'no_hp' => $request->no_hp,
+            'address' => $request->address,
+            'updated_at' => Carbon::now()
+        ]);
+
+        Toastr::success('Profile updated successfully', 'Success!');
+        return redirect()->route('user.profile');
     }
 
     public function destroy($id){

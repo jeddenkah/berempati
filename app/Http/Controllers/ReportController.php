@@ -64,7 +64,11 @@ class ReportController extends Controller
         ]);
 
         Toastr::success('Report added successfully', 'Success!');
-        return redirect()->route('crowdfund.show', $crowdfund_id);
+        if(Auth::user()->role->name == 'admin'){
+            return redirect()->route('crowdfund.show', $crowdfund_id);
+        }else{
+            return redirect()->route('crowdfund.showUser', $crowdfund_id);
+        }
 
     }
 

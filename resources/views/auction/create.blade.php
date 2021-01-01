@@ -35,8 +35,8 @@
                                 </div>
                             </div>
                             <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="60"
-                                    aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{$crowdfund->totalDonationPercentage()}}"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: {{$crowdfund->totalDonationPercentage()}}%;"></div>
                             </div>
                         </div>
 

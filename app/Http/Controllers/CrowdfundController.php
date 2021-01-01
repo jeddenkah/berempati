@@ -33,6 +33,11 @@ class CrowdfundController extends Controller
         return view('admin.crowdfund.create');
     }
 
+    public function createUser()
+    {
+        return view('crowdfund.create');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -55,7 +60,7 @@ class CrowdfundController extends Controller
         $image = $request->file('image')
             ->storeAs('public/images/crowdfund/', $fileName);
 
-        Crowdfund::insert([
+        $crowdfund_id = Crowdfund::insertGetId([
             'user_id' => Auth::user()->id,
             'name' => $request->name,
             'desc' => $request->description,
@@ -66,8 +71,13 @@ class CrowdfundController extends Controller
             'updated_at' => Carbon::now()
         ]);
 
-        Toastr::success('Crowdfund added successfully', 'Success!');
-        return redirect()->route('crowdfund.index');
+        if (Auth::user()->role->name == 'admin') {
+            Toastr::success('Crowdfund added successfully', 'Success!');
+            return redirect()->route('crowdfund.index');
+        } else {
+            Toastr::success('Anda bisa mengubah detail Galang Dana di My profile', 'Sukses memulai Galang Dana!');
+            return redirect()->route('crowdfund.showUser', $crowdfund_id);
+        }
     }
 
     /**
@@ -82,7 +92,8 @@ class CrowdfundController extends Controller
         return view('admin.crowdfund.show', compact('crowdfund'));
     }
 
-    public function showUser($id){
+    public function showUser($id)
+    {
         $crowdfund = Crowdfund::find($id);
         return view('crowdfund.show', compact('crowdfund'));
     }

@@ -14,8 +14,8 @@
 <link rel="stylesheet" href="{{ asset('css/crowdfund.css')}}">
 @endpush
 @php
-    use Carbon\Carbon;
-    Carbon::setLocale('id');
+use Carbon\Carbon;
+Carbon::setLocale('id');
 @endphp
 @section('content')
 <div class="row justify-content-center">
@@ -50,7 +50,8 @@
                         </div>
                     </div>
                     <div class="progress">
-                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{$crowdfund->totalDonationPercentage()}}" aria-valuemin="0"
+                        <div class="progress-bar bg-info" role="progressbar"
+                            aria-valuenow="{{$crowdfund->totalDonationPercentage()}}" aria-valuemin="0"
                             aria-valuemax="100" style="width: {{$crowdfund->totalDonationPercentage()}}%;"></div>
                     </div>
                 </div>
@@ -144,7 +145,15 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card">
-                            <div class="card-header">Report</div>
+                            <div class="card-header">Report
+                                @if (Auth::user()->id == $crowdfund->user_id)
+                                <button type="button" class="btn btn-primary btn-sm shadow float-right"
+                                data-toggle="modal"
+                                data-target="#addReport""><i
+                                        class="fas fa-plus"></i></button>
+                                @endif
+                                
+                            </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-11">
@@ -156,14 +165,15 @@
                                             <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
                                                 <div class="timeline-arrow"></div>
                                                 <div class="row">
-                                                    <div class="col-4">
+                                                    <div class="col-md-4">
                                                         <img src="{{ asset('/storage/images/report/'.$report->image) }}"
                                                             class="w-100" alt="">
                                                     </div>
 
-                                                    <div class="col-8">
+                                                    <div class="col-md-8">
                                                         <span class="small text-gray">
-                                                            <i class="fa fa-clock-o mr-1"></i>{{ Carbon::parse($report->datetime)->isoFormat('dddd, D MMMM Y')}}
+                                                            <i
+                                                                class="fa fa-clock-o mr-1"></i>{{ Carbon::parse($report->datetime)->isoFormat('dddd, D MMMM Y')}}
                                                         </span>
                                                         <p class="text-small mt-2 font-weight-light">{{$report->desc}}
                                                         </p>
@@ -177,6 +187,66 @@
                                 </div>
                             </div>
                         </div>
+                        @if (Auth::user()->id == $crowdfund->user_id)
+                        <!-- Modal Report-->
+                        <div class="modal fade" id="addReport" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Add Report</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{{ route('report.storeUser', $crowdfund->id) }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="pl-lg-2">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label" for="input-image">Image</label>
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input" name="image" id="input-image" lang="en">
+                                                                <label class="custom-file-label" for="customFileLang">Select file</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label" for="input-description">Description</label>
+                                                            <textarea name="description" class="form-control" id="input-description"
+                                                                rows="5">{{ old('description') }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="input-target-date" class="form-control-label">Date</label>
+                                                            <input class="form-control" type="datetime-local" name="datetime" id="input-target-date" value="{{ old('datetime') }}">
+                                                       
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Add Report</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <div class="card">
@@ -201,15 +271,18 @@
                     <div class="card-header">Barang Lelang</div>
                     <div class="card-body row">
                         @foreach ($crowdfund->auctions as $auction)
-                        <div class="col-3">
+                        <div class="col-md-3">
                             <div class="card">
-                                <img class="card-img-top" src="{{ asset('storage/images/auction/'.$auction->image) }}" alt="Card image cap">
+                                <img class="card-img-top" src="{{ asset('storage/images/auction/'.$auction->image) }}"
+                                    alt="Card image cap">
                                 <div class="card-body">
-                                  <h4 class="card-title"><a href="{{ route('auction.showUser', $auction->id) }}" class="stretched-link">{{$auction->name}}</a></h4>
-                                  <p class="card-text">Rp. {{number_format($auction->topBid(),0,",",".")}}</p>
-                                  <span class="badge badge-pill badge-primary float-right">{{$auction->daysLeft()}} HARI LAGI</span>
+                                    <h4 class="card-title"><a href="{{ route('auction.showUser', $auction->id) }}"
+                                            class="stretched-link">{{$auction->name}}</a></h4>
+                                    <p class="card-text">Rp. {{number_format($auction->topBid(),0,",",".")}}</p>
+                                    <span class="badge badge-pill badge-primary float-right">{{$auction->daysLeft()}}
+                                        HARI LAGI</span>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                         @endforeach
                     </div>

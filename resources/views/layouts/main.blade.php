@@ -4,7 +4,7 @@
 <!-- Main content -->
 <div class="main-content">
     <!-- Header -->
-    <div class="header bg-gradient-primary py-7 py-lg-6 pt-lg-9">
+    <div class="header bg-gradient-primary py-7 py-lg-6 pt-lg-8 mb-3">
         <div class="container">
             @yield('header')
         </div>
