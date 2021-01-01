@@ -140,8 +140,8 @@ Carbon::setLocale('id');
                 </div>
             </div>
 
-            <p class="my-3">Hasil Lelang ini akan didonasikan untuk</p>
-            <div class="card">
+            <p class="mt-3 ml-3">Hasil Lelang ini akan didonasikan untuk</p>
+            <div class="card m-3">
                 <div class="row no-gutters">
                     <div class="col-md-4">
                         <img src="{{ asset('storage/images/crowdfund/'. $auction->crowdfund->image) }}"

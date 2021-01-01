@@ -16,9 +16,9 @@
     <div class="col-lg-5 col-md-7">
         <div class="card bg-secondary border-0 mb-0">
 
-            <div class="card-body px-lg-5 py-lg-5">
+            <div class="card-body px-lg-5 pb-lg-3">
                 <div class="text-center text-muted mb-4">
-                    <small>{{ __('Login') }}</small>
+                   {{ __('Login') }}
                 </div>
                 <form role="form" method="POST" action="{{ route('login') }}">
                     @csrf
