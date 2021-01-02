@@ -140,7 +140,7 @@ Carbon::setLocale('id');
                 <div class="card text-center mt-5 py-2">
                     <p class="lead">{{ $crowdfund->desc }}</p>
                     <br>
-                    <footer><small>Penggalang Dana - {{ $crowdfund->user->name }}</small></footer>
+                    <footer><small>Penggalang Dana - {{ $crowdfund->user->name }} <i class="{{ $crowdfund->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i></small></footer>
                 </div>
                 <div class="row">
                     <div class="col-md-8">
@@ -160,7 +160,7 @@ Carbon::setLocale('id');
 
                                         <!-- Timeline -->
                                         <ul class="timeline">
-                                            @foreach ($crowdfund->reports as $report)
+                                            @foreach ($crowdfund->reports->reverse() as $report)
 
                                             <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
                                                 <div class="timeline-arrow"></div>

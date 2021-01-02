@@ -110,7 +110,7 @@ Carbon::setLocale('id');
                         <div class="card text-center ">
                             <p class="lead">{{ $auction->desc }}</p>
                             <br>
-                            <footer><small>Pelelang - {{ $auction->user->name }}</small></footer>
+                            <footer><small>Pelelang - {{ $auction->user->name }} <i class="{{ $auction->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i></small></footer>
                         </div>
                     </div>
                     <div class="col-md-4 mt-5 py-2">
@@ -169,7 +169,7 @@ Carbon::setLocale('id');
                                 </div>
                             </div>
                             <div class="h5 mb-0 mt-auto text-right">
-                                <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - {{$auction->crowdfund->user->name}}
+                                <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - {{$auction->crowdfund->user->name}} <i class="{{ $auction->crowdfund->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i>
                             </div>
                         </div>
                     </div>

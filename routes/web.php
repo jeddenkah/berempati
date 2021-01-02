@@ -42,6 +42,15 @@ Route::middleware('auth')->group(function(){
         Route::get('artisan/migrate', function(){
             Artisan::call('migrate');
         });
+        Route::get('artisan/cacheclear', function(){
+            Artisan::call('cache:clear');
+        });
+        Route::get('artisan/viewclear', function(){
+            Artisan::call('view:clear');
+        });
+        Route::get('artisan/configcache', function(){
+            Artisan::call('config:cache');
+        });
     });
 
     Route::get('results', 'HomeController@search')->name('search');

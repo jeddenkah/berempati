@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="h5 mb-3 mt-auto text-center">
-                  <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - {{$crowdfund->user->name}}
+                  <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - {{$crowdfund->user->name}} <i class="{{ $crowdfund->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i>
               </div>
             </div>
         </div>
