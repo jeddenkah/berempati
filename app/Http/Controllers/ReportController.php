@@ -50,7 +50,7 @@ class ReportController extends Controller
         $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
 
         $image = $request->file('image')
-            ->storeAs('public/images/report/', $fileName);
+            ->storeAs('images/report/', $fileName, ['disk'=>'public']);
 
         Report::insert([
             'user_id' => Auth::user()->id,
@@ -114,12 +114,12 @@ class ReportController extends Controller
 
         if ($request->hasFile('image')) {
             $existingImage = Report::find($id)->image;
-            Storage::delete('public/images/report/' . $existingImage);
+            Storage::disk('public')->delete('images/report/' . $existingImage);
 
 
             $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
             $image = $request->file('image')
-                ->storeAs('public/images/report/', $fileName);
+                ->storeAs('images/report/', $fileName, ['disk'=>'public']);
 
 
             $image = Report::find($id)->update([
@@ -148,7 +148,7 @@ class ReportController extends Controller
     {
         $existingImage = Report::find($id)->image;
 
-        Storage::delete('public/images/report/' . $existingImage);
+        Storage::disk('public')->delete('images/report/' . $existingImage);
 
         Report::where('id', $id)->delete();
 

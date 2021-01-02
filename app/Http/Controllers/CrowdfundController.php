@@ -58,7 +58,7 @@ class CrowdfundController extends Controller
         $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
 
         $image = $request->file('image')
-            ->storeAs('public/images/crowdfund/', $fileName);
+            ->storeAs('images/crowdfund/', $fileName, ['disk'=>'public']);
 
         $crowdfund_id = Crowdfund::insertGetId([
             'user_id' => Auth::user()->id,
@@ -129,12 +129,12 @@ class CrowdfundController extends Controller
 
         if ($request->hasFile('image')) {
             $existingImage = Crowdfund::find($id)->image;
-            Storage::delete('public/images/crowdfund/' . $existingImage);
+            Storage::disk('public')->delete('images/crowdfund/' . $existingImage);
 
 
             $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
             $image = $request->file('image')
-                ->storeAs('public/images/crowdfund/', $fileName);
+                ->storeAs('images/crowdfund/', $fileName, ['disk'=>'public']);
 
 
             $image = Crowdfund::find($id)->update([
@@ -165,7 +165,7 @@ class CrowdfundController extends Controller
     {
         $existingImage = Crowdfund::find($id)->image;
 
-        Storage::delete('public/images/crowdfund/' . $existingImage);
+        Storage::disk('public')->delete('images/crowdfund/' . $existingImage);
 
         Crowdfund::where('id', $id)->delete();
 

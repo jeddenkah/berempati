@@ -57,7 +57,7 @@ class AuctionController extends Controller
         $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
 
         $image = $request->file('image')
-            ->storeAs('public/images/auction/', $fileName);
+            ->storeAs('images/auction/', $fileName, ['disk'=>'public']);
 
         Auction::insert([
             'user_id' => Auth::user()->id,
@@ -130,12 +130,12 @@ class AuctionController extends Controller
 
         if ($request->hasFile('image')) {
             $existingImage = Auction::find($id)->image;
-            Storage::delete('public/images/auction/' . $existingImage);
+            Storage::disk('public')->delete('public/images/auction/' . $existingImage);
 
 
             $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
             $image = $request->file('image')
-                ->storeAs('public/images/auction/', $fileName);
+                ->storeAs('images/auction/', $fileName, ['disk'=>'public']);
 
 
             $image = Auction::find($id)->update([
@@ -165,6 +165,19 @@ class AuctionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $crowdfund_id = Auction::find($id)->crowdfund->id;
+
+        $bids = Auction::find($id)->bids;
+        foreach($bids as $bid){
+            $bid->delete();
+        }
+        $existingImage = Auction::find($id)->image;
+
+        Storage::disk('public')->delete('images/auction/' . $existingImage);
+
+        Auction::where('id', $id)->delete();
+
+        Toastr::success('Auction deleted successfully', 'Success!');
+        return redirect()->route('crowdfund.show', $crowdfund_id);
     }
 }
