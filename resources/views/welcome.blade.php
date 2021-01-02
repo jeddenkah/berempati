@@ -14,8 +14,8 @@
 <div class="row justify-content-center">
     <div class="card-deck">
         @foreach($crowdfunds as $crowdfund)
-        <div class="col-lg-4 mb-4">
-            <div class="card card-profile h-100 shadow m-0">
+        <div class="col-lg-4 d-flex align-items-stretch mb-4">
+            <div class="card card-profile shadow m-0">
                 <img src="{{ asset('storage/images/crowdfund/'.$crowdfund->image) }}" alt="Image placeholder"
                     class="card-img-top" height="200px">
 
@@ -47,6 +47,25 @@
                 <div class="h5 mb-3 mt-auto text-center">
                   <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - {{$crowdfund->user->name}}
               </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+    <p class="display-3 mt-5">Barang Lelang</p>
+    <div class="card-deck">
+        @foreach ($auctions as $auction)
+        <div class="col-md-3 d-flex align-items-stretch">
+            <div class="card">
+                <img class="card-img-top" src="{{ asset('storage/images/auction/'.$auction->image) }}"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title"><a href="{{ route('auction.showUser', $auction->id) }}"
+                            class="stretched-link">{{$auction->name}}</a></h4>
+                    <p class="card-text">Rp. {{number_format($auction->topBid(),0,",",".")}}</p>
+                    <span class="badge badge-pill badge-primary mb-2 mt-auto float-right">{{$auction->daysLeft()}}
+                        HARI LAGI</span>
+                </div>
             </div>
         </div>
         @endforeach

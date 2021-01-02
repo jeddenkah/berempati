@@ -111,6 +111,13 @@ class AuctionController extends Controller
         return view('admin.auction.edit', compact('auction'));
     }
 
+    public function editUser($id)
+    {
+        $auction = Auction::find($id);
+
+        return view('auction.edit', compact('auction'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -154,6 +161,43 @@ class AuctionController extends Controller
 
         Toastr::success('Auction edited successfully', 'Success!');
         return redirect()->route('crowdfund.show', $auction->crowdfund->id);
+
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'description' => 'required|string',
+            'image' => 'file | image',
+            'start_nominal' => 'required|numeric',
+            'target_date' => 'required|date',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $existingImage = Auction::find($id)->image;
+            Storage::disk('public')->delete('public/images/auction/' . $existingImage);
+
+
+            $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
+            $image = $request->file('image')
+                ->storeAs('images/auction/', $fileName, ['disk'=>'public']);
+
+
+            $image = Auction::find($id)->update([
+                'image' => $fileName,
+            ]);
+        }
+
+        $auction = Auction::find($id);
+        $auction->update([
+            'desc' => $request->description,
+            'start_nominal' => $request->start_nominal,
+            'target_date' => $request->target_date,
+            'updated_at' => Carbon::now()
+        ]);
+
+        Toastr::success('Auction edited successfully', 'Success!');
+        return redirect()->route('user.profile');
 
     }
 

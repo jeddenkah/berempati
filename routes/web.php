@@ -44,15 +44,28 @@ Route::middleware('auth')->group(function(){
         });
     });
 
+    Route::get('results', 'HomeController@search')->name('search');
+
     Route::get('crowdfund/create', 'CrowdfundController@createUser')->name('crowdfund.createUser');
     Route::post('crowdfund/store', 'CrowdfundController@store')->name('crowdfund.storeUser');
     Route::get('crowdfund/{id}', 'CrowdfundController@showUser')->name('crowdfund.showUser');
+    Route::get('crowdfund/{id}/edit', 'CrowdfundController@editUser')->name('crowdfund.editUser');
+    Route::patch('crowdfund/{id}/update', 'CrowdfundController@updateUser')->name('crowdfund.updateUser');
+
     Route::post('crowdfund/{id}/donation', 'DonationController@store')->name('donation.storeUser');
+
     Route::post('crowdfund/{id}/report', 'ReportController@store')->name('report.storeUser');
+
     Route::get('crowdfund/{id}/auction/create', 'AuctionController@createUser')->name('auction.createUser');
     Route::post('crowdfund/{id}/auction/create/store', 'AuctionController@store')->name('auction.storeUser');
+    
     Route::get('auction/{id}', 'AuctionController@showUser')->name('auction.showUser');
+    Route::get('auction/{id}/edit', 'AuctionController@editUser')->name('auction.editUser');
+    Route::patch('auction/{id}/update', 'AuctionController@updateUser')->name('auction.updateUser');
     Route::post('auction/{id}/bid', 'BidController@store')->name('bid.storeUser');
+    
     Route::get('profile', 'UserController@profile')->name('user.profile');
     Route::patch('profile/update', 'UserController@updateUser')->name('user.update');
+    Route::post('profile/changePassword','UserController@changePassword')->name('user.changePassword');
+
 });

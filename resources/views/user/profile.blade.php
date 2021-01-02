@@ -12,6 +12,7 @@
 @endsection
 @push('css')
 <link rel="stylesheet" href="{{ asset('css/crowdfund.css')}}">
+@include('layouts.plugin.dataTable-css')
 @endpush
 @php
 use Carbon\Carbon;
@@ -59,8 +60,7 @@ Carbon::setLocale('id');
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="profile" role="tabpanel"
                                 aria-labelledby="profile-tab">
-                                <form action="{{ route('user.update') }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('patch')
                                     <!-- Address -->
@@ -79,41 +79,99 @@ Carbon::setLocale('id');
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="input-email">Email</label>
                                                     <input id="input-email" class="form-control" name="email"
-                                                        placeholder="Email" type="email" value="{{ Auth::user()->email }}">
+                                                        placeholder="Email" type="email"
+                                                        value="{{ Auth::user()->email }}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="input-no_hp">Phone Number</label>
+                                                    <label class="form-control-label" for="input-no_hp">Phone
+                                                        Number</label>
                                                     <input id="input-no_hp" class="form-control" name="no_hp"
-                                                        placeholder="Phone Number" type="number" value="{{ Auth::user()->no_hp }}">
+                                                        placeholder="Phone Number" type="number"
+                                                        value="{{ Auth::user()->no_hp }}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                
+
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="form-control-label" for="input-address">Address (Optional)</label>
+                                                    <label class="form-control-label" for="input-address">Address
+                                                        (Optional)</label>
                                                     <textarea name="address" class="form-control" id="input-address"
-                                                    rows="5">{{ Auth::user()->address }}</textarea>
+                                                        rows="5">{{ Auth::user()->address }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                
+
+
                                     </div>
-                
-                
+
+
                                     <hr class="my-4" />
                                     <button type="submit" class="btn btn-primary float-right ml-3">Update</button>
-                                    <a href="{{ route('user.profile') }}" class="btn btn-secondary float-right">Cancel</a>
+                                    <a href="{{ route('user.profile') }}"
+                                        class="btn btn-secondary float-right">Cancel</a>
                                 </form>
+                                <h2 class="mt-9">Ubah Password</h2>
+                                <hr class="my-2" />
+                                <form action="{{ route('user.changePassword') }}" class="mt-4" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <!-- Address -->
+                                    <div class="pl-lg-2">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-old-password">Password
+                                                        Lama</label>
+                                                    <input id="input-old-password" class="form-control"
+                                                        name="old_password" placeholder="Password Lama" type="password"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-old-password">Password
+                                                        Baru</label>
+                                                    <input id="input-old-password" class="form-control"
+                                                        name="new_password" placeholder="Password Baru" type="password"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label"
+                                                        for="input-old-password">Konfirmasi Password Baru</label>
+                                                    <input id="input-old-password" class="form-control"
+                                                        name="confirm_new_password"
+                                                        placeholder="Konfirmasi Password Baru" type="password" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <hr class="my-4" />
+                                    <button type="submit" class="btn btn-primary float-right ml-3">Change
+                                        Password</button>
+                                    <a href="{{ route('user.profile') }}"
+                                        class="btn btn-secondary float-right">Cancel</a>
+                                </form>
+
                             </div>
+
                             <div class="tab-pane fade " id="crowdfund" role="tabpanel" aria-labelledby="crowdfund-tab">
 
+                                <a class="btn btn-primary btn-sm shadow float-right" href="{{ route('crowdfund.createUser') }}"><i
+                                    class="fas fa-plus"></i></a>
                                 <h3 class="text-muted">Daftar Galang Dana Saya</h3>
                                 <div class="table-responsive">
                                     <table class="table align-items-center dataTable table-flush">
@@ -138,22 +196,27 @@ Carbon::setLocale('id');
                                                     </div>
                                                 </th>
                                                 <td class="budget">
-                                                    Rp. {{ $crowdfund->target_nominal }}
+                                                    Rp. {{ number_format($crowdfund->target_nominal,0,",",".")}}
                                                 </td>
                                                 <td>
                                                     {{ $crowdfund->target_date }}
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <span class="completion mr-2">0%</span>
+                                                        <span class="completion mr-2">{{$crowdfund->totalDonationPercentage()}}%</span>
                                                         <div>
                                                             <div class="progress">
                                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100" style="width: 0%;"></div>
+                                                                    aria-valuenow="{{$crowdfund->totalDonationPercentage()}}"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    style="width: {{$crowdfund->totalDonationPercentage()}}%;">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <small>Terkumpul Rp.
+                                                        {{ number_format($crowdfund->totalDonation(),0,",",".") }}</small>
+
                                                 </td>
                                                 <td class="text-right">
                                                     <div class="dropdown">
@@ -164,17 +227,10 @@ Carbon::setLocale('id');
                                                         </a>
                                                         <div
                                                             class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            <form
-                                                                action="{{ route('crowdfund.destroy', $crowdfund->id) }}"
-                                                                method="POST"
-                                                                onsubmit="return confirm('Are you sure delete this item?')">
-                                                                @csrf
-                                                                @method('delete')
+                                                            
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('crowdfund.edit', $crowdfund->id) }}">Edit</a>
-                                                                <button type="submit"
-                                                                    class="dropdown-item">Delete</button>
-                                                            </form>
+                                                                    href="{{ route('crowdfund.editUser', $crowdfund->id) }}">Edit</a>
+                                                                
                                                         </div>
                                                     </div>
                                                 </td>
@@ -185,7 +241,7 @@ Carbon::setLocale('id');
                                     </table>
                                 </div>
 
-                                <h3 class="text-muted">Daftar Donasi Saya</h3>
+                                <h2 class="text-muted mt-6">Daftar Donasi Saya</h2>
                                 <div class="table-responsive">
                                     <table class="table align-items-center dataTable table-flush">
                                         <thead class="thead-light">
@@ -228,6 +284,7 @@ Carbon::setLocale('id');
                             </div>
 
                             <div class="tab-pane fade" id="auction" role="tabpanel" aria-labelledby="auction-tab">
+
                                 <h3 class="text-muted">Daftar Lelang Saya</h3>
                                 <div class="table-responsive">
                                     <table class="table align-items-center dataTable table-flush">
@@ -275,16 +332,10 @@ Carbon::setLocale('id');
                                                         </a>
                                                         <div
                                                             class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            <form action="{{ route('auction.destroy',[$auction->id]) }}"
-                                                                method="POST"
-                                                                onsubmit="return confirm('Are you sure delete this item?')">
-                                                                @csrf
-                                                                @method('delete')
+                                                        
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('auction.edit', [$auction->id]) }}">Edit</a>
-                                                                <button type="submit"
-                                                                    class="dropdown-item">Delete</button>
-                                                            </form>
+                                                                    href="{{ route('auction.editUser', [$auction->id]) }}">Edit</a>
+                                                                
                                                         </div>
                                                     </div>
                                                 </td>
@@ -294,6 +345,44 @@ Carbon::setLocale('id');
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <h3 class="text-muted mt-6">Daftar Bid Saya</h3>
+                                <div class="table-responsive">
+                                    <table class="table align-items-center dataTable table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="name">Galang Dana</th>
+                                                <th scope="col" class="sort" data-sort="status">Nominal</th>
+                                                <th scope="col" class="sort" data-sort="status">Description</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list">
+                                            @foreach (Auth::user()->bids as $bid)
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="media align-items-center">
+                                                        <div class="media-body">
+                                                            <a
+                                                                href="{{ route('auction.showUser', $bid->auction->id) }}"><span
+                                                                    class="name mb-0 text-sm">{{ $bid->auction->name }}</span></a>
+                                                        </div>
+                                                    </div>
+                                                </th>
+
+                                                <td class="budget">
+                                                    Rp. {{ number_format($bid->nominal,0,",",".") }}
+                                                </td>
+                                                <td>
+                                                    {{ $bid->desc }}
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -303,3 +392,6 @@ Carbon::setLocale('id');
     </div>
 </div>
 @endsection
+@push('js')
+@include('layouts.plugin.dataTable-js')
+@endpush

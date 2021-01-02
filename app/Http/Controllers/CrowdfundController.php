@@ -110,6 +110,12 @@ class CrowdfundController extends Controller
         return view('admin.crowdfund.edit', compact('crowdfund'));
     }
 
+    public function editUser($id)
+    {
+        $crowdfund = Crowdfund::find($id);
+        return view('crowdfund.edit', compact('crowdfund'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -154,6 +160,43 @@ class CrowdfundController extends Controller
         Toastr::success('Crowdfund edited successfully', 'Success!');
         return redirect()->route('crowdfund.index');
     }
+
+    public function updateUser(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'description' => 'required|string',
+            'image' => 'nullable | file | image',
+            'target_nominal' => 'required|numeric',
+            'target_date' => 'required|date',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $existingImage = Crowdfund::find($id)->image;
+            Storage::disk('public')->delete('images/crowdfund/' . $existingImage);
+
+
+            $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
+            $image = $request->file('image')
+                ->storeAs('images/crowdfund/', $fileName, ['disk'=>'public']);
+
+
+            $image = Crowdfund::find($id)->update([
+                'image' => $fileName,
+            ]);
+        }
+
+
+        Crowdfund::find($id)->update([
+            'desc' => $request->description,
+            'target_nominal' => $request->target_nominal,
+            'target_date' => $request->target_date,
+            'updated_at' => Carbon::now()
+        ]);
+
+        Toastr::success('Crowdfund edited successfully', 'Success!');
+        return redirect()->route('user.profile');
+    }
+
 
     /**
      * Remove the specified resource from storage.

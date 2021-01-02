@@ -147,21 +147,22 @@
                               {{ $crowdfund->user->name }}
                             </td>
                             <td class="budget">
-                              Rp. {{ $crowdfund->target_nominal }}
+                              Rp. {{ number_format($crowdfund->target_nominal,0,",",".")}}
                             </td>
                             <td>
                               {{ $crowdfund->target_date }}
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <span class="completion mr-2">0%</span>
+                                    <span class="completion mr-2">{{$crowdfund->totalDonationPercentage()}}%</span>
                                     <div>
                                         <div class="progress">
-                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0"
-                                                aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{$crowdfund->totalDonationPercentage()}}"
+                                                aria-valuemin="0" aria-valuemax="100" style="width: {{$crowdfund->totalDonationPercentage()}}%;"></div>
                                         </div>
                                     </div>
                                 </div>
+                                <small>Terkumpul Rp. {{ number_format($crowdfund->totalDonation(),0,",",".") }}</small>
                             </td>
                             <td class="text-right">
                                 <div class="dropdown">

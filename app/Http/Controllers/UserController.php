@@ -8,24 +8,29 @@ use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $users = User::all();
         return view('admin.user.index', compact('users'));
     }
 
-    public function profile(){
+    public function profile()
+    {
         return view('user.profile');
     }
-    public function edit($id){
+    public function edit($id)
+    {
         $user = User::find($id);
         $roles = Role::all();
         return view('admin.user.edit', compact('user', 'roles'));
     }
 
-    public function update($id, Request $request){
+    public function update($id, Request $request)
+    {
         $validatedData = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
@@ -51,7 +56,8 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request)
+    {
         $validatedData = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
@@ -71,10 +77,37 @@ class UserController extends Controller
         return redirect()->route('user.profile');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         User::find($id)->delete();
 
         Toastr::success('User deleted successfully', 'Success!');
         return redirect()->route('user.index');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validatedData = $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:8',
+        ]);
+        if ($request->new_password != $request->confirm_new_password) {
+            Toastr::error('', 'Konfirmasi password baru tidak sama!');
+            return redirect()->route('user.profile');
+        }
+
+        $user = Auth::user();
+
+        if(Hash::check($request->old_password, $user->password)){
+            User::find($user->id)->update([
+                'password'=>Hash::make($request->new_password)
+            ]);
+        }else{
+            Toastr::error('', 'Password Lama salah!');
+            return redirect()->route('user.profile');
+        }
+
+        Toastr::success('Password changed successfully', 'Success!');
+        return redirect()->route('user.profile');
     }
 }
