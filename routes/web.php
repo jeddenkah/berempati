@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('results', 'HomeController@search')->name('search');
 
 Auth::routes();
 
@@ -53,7 +54,6 @@ Route::middleware('auth')->group(function(){
         });
     });
 
-    Route::get('results', 'HomeController@search')->name('search');
 
     Route::get('crowdfund/create', 'CrowdfundController@createUser')->name('crowdfund.createUser');
     Route::post('crowdfund/store', 'CrowdfundController@store')->name('crowdfund.storeUser');

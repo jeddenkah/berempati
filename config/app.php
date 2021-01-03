@@ -232,4 +232,10 @@ return [
 
     ],
 
+
+    //API
+    'api' => [
+        'url' => 'https://airpay.fun/api/',
+        'bearer' => '56a412d025e70a780cf6f4499fb4184df8492f224ccc3ff4505c081608f30e03'
+    ]
 ];

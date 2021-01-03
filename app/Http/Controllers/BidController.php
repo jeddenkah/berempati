@@ -45,6 +45,12 @@ class BidController extends Controller
             'desc' => 'nullable|string',
         ]);
 
+        $auction = Auction::find($auction_id);
+        if($request->nominal < $auction->topBid()+5000){
+        Toastr::error('Bid minimal adalah Rp. '.number_format($auction->topBid()+5000,0,",","."), 'Error!');
+            return redirect()->back()->withInput();
+        }
+
         Bid::insert([
             'user_id' => Auth::user()->id,
             'auction_id' => $auction_id,
@@ -53,6 +59,7 @@ class BidController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
 
         Toastr::success('Bid added successfully', 'Success!');
         if(Auth::user()->role->name == 'admin'){

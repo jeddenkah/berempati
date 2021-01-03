@@ -57,7 +57,7 @@
               <div class="dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Welcome! <span class="text-capitalize">{{ Auth::user()->name }}</span></h6>
                 <br>
-                <h6 class="text-overflow m-0">Saldo anda: Rp. 26.000.000</h6>
+                <h6 class="text-overflow m-0">Saldo: Rp. 26.000.000</h6>
               </div>
               <div class="dropdown-divider"></div>
 

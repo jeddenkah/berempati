@@ -46,9 +46,11 @@
                                     <label class="form-control-label" for="input-image">Image</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="image" id="input-image" lang="en">
-                                        <label class="custom-file-label" for="customFileLang">Select file</label>
+                                        <label class="custom-file-label" for="input-image">Select file</label>
                                     </div>
+                                    
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -73,7 +75,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="input-date" class="form-control-label">Date</label>
-                                    <input class="form-control" type="date" name="target_date" id="input-date" value="{{ old('target_date') }}">
+                                    <input class="form-control" type="date" name="target_date" id="input-date" value="{{ old('target_date') }}" min="{{ date('Y-m-d') }}">
                                
                                 </div>
                                 
@@ -83,7 +85,7 @@
 
                     <hr class="my-4" />
                     <button type="submit" class="btn btn-primary float-right ml-3">Submit</button>
-                    <a href="{{ route('crowdfund.index') }}" class="btn btn-secondary float-right">Cancel</a>
+                    <a href="{{ URL::previous() }}" class="btn btn-secondary float-right">Cancel</a>
                 </form>
             </div>
         </div>

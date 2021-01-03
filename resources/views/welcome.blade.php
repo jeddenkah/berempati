@@ -51,8 +51,9 @@
         </div>
         @endforeach
     </div>
-
-    <p class="display-3 mt-5">Barang Lelang</p>
+    <div class="col-12 text-center">
+        <p class="display-3 mt-5">Barang Lelang</p>
+    </div>
     <div class="card-deck">
         @foreach ($auctions as $auction)
         <div class="col-md-3 d-flex align-items-stretch">

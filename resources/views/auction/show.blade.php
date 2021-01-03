@@ -78,16 +78,18 @@ Carbon::setLocale('id');
                                                         </div>
                                                         <small id="emailHelp" class="form-text text-muted">Saldo anda:
                                                             Rp 26.000.000</small>
+                                                        <small id="emailHelp" class="form-text text-muted">Bid Minimal:
+                                                                Rp {{number_format($auction->topBid()+5000,0,",",".")}}</small>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="form-control-label" for="input-message">Message
+                                                        <label class="form-control-label" for="input-desc">Message
                                                             (Optional)</label>
-                                                        <textarea name="message" class="form-control" id="input-message"
-                                                            rows="5">{{ old('message') }}</textarea>
+                                                        <textarea name="desc" class="form-control" id="input-desc"
+                                                            rows="5">{{ old('desc') }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,7 +112,9 @@ Carbon::setLocale('id');
                         <div class="card text-center ">
                             <p class="lead">{{ $auction->desc }}</p>
                             <br>
-                            <footer><small>Pelelang - {{ $auction->user->name }} <i class="{{ $auction->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i></small></footer>
+                            <footer><small>Pelelang - {{ $auction->user->name }} <i
+                                        class="{{ $auction->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i></small>
+                            </footer>
                         </div>
                     </div>
                     <div class="col-md-4 mt-5 py-2">
@@ -140,41 +144,51 @@ Carbon::setLocale('id');
                 </div>
             </div>
 
-            <p class="mt-3 ml-3">Hasil Lelang ini akan didonasikan untuk</p>
-            <div class="card m-3">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="{{ asset('storage/images/crowdfund/'. $auction->crowdfund->image) }}"
-                            class="card-img center-block" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h3 class="card-title"><a href="{{ route('crowdfund.showUser', $auction->crowdfund->id)}}"
-                                    class="stretched-link">{{ $auction->crowdfund->name }}</a></h3>
-                            <div class="progress-wrapper mt-n4">
-                                <div class="progress-info">
-                                    <div class="progress-label">
-                                        <span>{{$auction->crowdfund->daysLeft()}} hari lagi</span>
+            <div class="col-12">
+                <p class="mt-3 ml-3">Hasil Lelang ini akan didonasikan untuk</p>
+
+            </div>
+            <div class="col-12">
+
+                <div class="card m-3">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="{{ asset('storage/images/crowdfund/'. $auction->crowdfund->image) }}"
+                                class="card-img center-block" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h3 class="card-title"><a
+                                        href="{{ route('crowdfund.showUser', $auction->crowdfund->id)}}"
+                                        class="stretched-link">{{ $auction->crowdfund->name }}</a></h3>
+                                <div class="progress-wrapper mt-n4">
+                                    <div class="progress-info">
+                                        <div class="progress-label">
+                                            <span>{{$auction->crowdfund->daysLeft()}} hari lagi</span>
+                                        </div>
+                                        <div class="progress-percentage">
+                                            <span>Rp.
+                                                {{number_format($auction->crowdfund->totalDonation(),0,",",".")}}</span>
+                                        </div>
                                     </div>
-                                    <div class="progress-percentage">
-                                        <span>Rp.
-                                            {{number_format($auction->crowdfund->totalDonation(),0,",",".")}}</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-info" role="progressbar"
+                                            aria-valuenow="{{$auction->crowdfund->totalDonationPercentage()}}"
+                                            aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{$auction->crowdfund->totalDonationPercentage()}}%;"></div>
                                     </div>
                                 </div>
-                                <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar"
-                                        aria-valuenow="{{$auction->crowdfund->totalDonationPercentage()}}"
-                                        aria-valuemin="0" aria-valuemax="100"
-                                        style="width: {{$auction->crowdfund->totalDonationPercentage()}}%;"></div>
+                                <div class="h5 mb-0 mt-auto text-right">
+                                    <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana -
+                                    {{$auction->crowdfund->user->name}} <i
+                                        class="{{ $auction->crowdfund->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i>
                                 </div>
-                            </div>
-                            <div class="h5 mb-0 mt-auto text-right">
-                                <i class="ni business_briefcase-24 mr-2"></i>Penggalang Dana - {{$auction->crowdfund->user->name}} <i class="{{ $auction->crowdfund->user->is_verified ? 'fas fa-check-circle text-primary':''}}"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

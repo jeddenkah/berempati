@@ -354,7 +354,6 @@ Carbon::setLocale('id');
                                                 <th scope="col" class="sort" data-sort="name">Galang Dana</th>
                                                 <th scope="col" class="sort" data-sort="status">Nominal</th>
                                                 <th scope="col" class="sort" data-sort="status">Description</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="list">
