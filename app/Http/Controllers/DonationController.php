@@ -49,8 +49,8 @@ class DonationController extends Controller
         Donation::insert([
             'user_id' => Auth::user()->id,
             'crowdfund_id' => $crowdfund_id,
-            'nominal'=> $request->nominal, 
-            'message'=> $request->message, 
+            'nominal' => $request->nominal,
+            'message' => $request->message,
             'is_anonym' => $is_anonym,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -106,8 +106,8 @@ class DonationController extends Controller
         $is_anonym = $request->is_anonym ?? false;
 
         Donation::find($id)->update([
-            'nominal'=> $request->nominal, 
-            'message'=> $request->message, 
+            'nominal' => $request->nominal,
+            'message' => $request->message,
             'is_anonym' => $is_anonym,
             'updated_at' => Carbon::now()
         ]);
