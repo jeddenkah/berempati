@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -79,6 +80,60 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        $user = User::find($id);
+
+        //delete bid
+        foreach ($user->bids as $bid) {
+            $bid->delete();
+        }
+
+        //delete auction
+        foreach ($user->auctions as $auction) {
+
+            foreach ($auction->bids as $bid) {
+                $bid->delete();
+            }
+            $existingImage = $auction->image;
+
+            Storage::disk('public')->delete('images/auction/' . $existingImage);
+
+            $auction->delete();
+        }
+
+        //delete donation
+        foreach ($user->donations as $donation) {
+            $donation->delete();
+        }
+
+        //delete crowdfund
+        foreach ($user->crowdfunds as $crowdfund) {
+
+            //delete auction
+            foreach ($crowdfund->auctions as $auction) {
+
+                //delete bids
+                foreach ($auction->bids as $bid) {
+                    $bid->delete();
+                }
+
+                $existingImage = $auction->image;
+                Storage::disk('public')->delete('images/auction/' . $existingImage);
+                $auction->delete();
+            }
+            //delete donation
+            $donations = $crowdfund->donations;
+            foreach ($donations as $donation) {
+                $donation->delete();
+            }
+
+            $existingImage = $crowdfund->image;
+
+            Storage::disk('public')->delete('images/crowdfund/' . $existingImage);
+
+            $crowdfund->delete();
+        }
+
+
         User::find($id)->delete();
 
         Toastr::success('User deleted successfully', 'Success!');
@@ -98,11 +153,11 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        if(Hash::check($request->old_password, $user->password)){
+        if (Hash::check($request->old_password, $user->password)) {
             User::find($user->id)->update([
-                'password'=>Hash::make($request->new_password)
+                'password' => Hash::make($request->new_password)
             ]);
-        }else{
+        } else {
             Toastr::error('', 'Password Lama salah!');
             return redirect()->route('user.profile');
         }
