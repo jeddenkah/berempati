@@ -228,7 +228,7 @@ Carbon::setLocale('id');
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label for="input-target-date" class="form-control-label">Date</label>
-                                                            <input class="form-control" type="datetime-local" name="datetime" id="input-target-date" value="{{ old('datetime') }}" max="{{ date('Y-m-d\TH:i') }}" min="{{ date('Y-m-d\TH:i', strtotime($crowdfund->created_at)) }}">
+                                                            <input class="form-control" type="datetime-local" name="datetime" id="input-target-date" value="{{ old('datetime') }}" max="{{ date('Y-m-d\TH:i') }}" >
                                                        
                                                         </div>
                                                         

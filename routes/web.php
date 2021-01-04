@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function(){
     Route::post('auction/{id}/bid', 'BidController@store')->name('bid.storeUser');
     
     Route::get('profile', 'UserController@profile')->name('user.profile');
-    Route::patch('profile/update', 'UserController@updateUser')->name('user.update');
+    Route::patch('profile/update', 'UserController@updateUser')->name('user.updateUser');
     Route::post('profile/changePassword','UserController@changePassword')->name('user.changePassword');
 
 });

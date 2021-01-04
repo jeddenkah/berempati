@@ -58,7 +58,7 @@ class CrowdfundController extends Controller
         $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
 
         $image = $request->file('image')
-            ->storeAs('images/crowdfund/', $fileName, ['disk'=>'public']);
+            ->storeAs('images/crowdfund/', $fileName, ['disk' => 'public']);
 
         $crowdfund_id = Crowdfund::insertGetId([
             'user_id' => Auth::user()->id,
@@ -140,7 +140,7 @@ class CrowdfundController extends Controller
 
             $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
             $image = $request->file('image')
-                ->storeAs('images/crowdfund/', $fileName, ['disk'=>'public']);
+                ->storeAs('images/crowdfund/', $fileName, ['disk' => 'public']);
 
 
             $image = Crowdfund::find($id)->update([
@@ -177,7 +177,7 @@ class CrowdfundController extends Controller
 
             $fileName = date("Y-m-d-His") . '_' . $request->file('image')->getClientOriginalName();
             $image = $request->file('image')
-                ->storeAs('images/crowdfund/', $fileName, ['disk'=>'public']);
+                ->storeAs('images/crowdfund/', $fileName, ['disk' => 'public']);
 
 
             $image = Crowdfund::find($id)->update([
@@ -206,6 +206,27 @@ class CrowdfundController extends Controller
      */
     public function destroy($id)
     {
+        $crowdfund = Crowdfund::find($id);
+
+        //delete auction
+        $auctions = $crowdfund->auctions;
+        foreach ($auctions as $auction) {
+
+            //delete bids
+            foreach ($auction->bids as $bid) {
+                $bid->delete();
+            }
+
+            $existingImage = $auction->image;
+            Storage::disk('public')->delete('images/auction/' . $existingImage);
+            $auction->delete();
+        }
+        //delete donation
+        $donations = $crowdfund->donations;
+        foreach ($donations as $donation) {
+            $donation->delete();
+        }
+
         $existingImage = Crowdfund::find($id)->image;
 
         Storage::disk('public')->delete('images/crowdfund/' . $existingImage);

@@ -70,7 +70,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-image">Image</label>
+                                    <label class="form-control-label" for="input-image">Image (Kosongkan jika tidak diganti)</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="image" id="input-image" lang="en">
                                         <label class="custom-file-label" for="customFileLang">Select file</label>

@@ -60,7 +60,7 @@ Carbon::setLocale('id');
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="profile" role="tabpanel"
                                 aria-labelledby="profile-tab">
-                                <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('user.updateUser') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('patch')
                                     <!-- Address -->
